@@ -61,11 +61,12 @@ const Graphness = (self) => ({
       let tail = self.edges[i].firstVertex
       let head = self.edges[i].secondVertex
 
-      if (
-        self.findVertex(fstVertexId) && self.findVertex(sndVertexId)
-      ){
-        return (fstVertexId === tail.id && sndVertexId === head.id) 
-          || (fstVertexId === head.id && sndVertexId === tail.id)
+      if (fstVertexId === tail.id && sndVertexId === head.id){
+        return true
+      }
+
+      if (fstVertexId === head.id && sndVertexId === tail.id){
+        return true
       }
     }
 
@@ -138,7 +139,7 @@ const AddsVertices = (self) => ({
 
     // An edge's uniqueness is determine by its pair
     // This is a one-way edge
-    if (self.edgeExists(firstVertex, secondVertex)){
+    if (self.edgeExists(firstVertex.id, secondVertex.id)){
       return false
     }
 
