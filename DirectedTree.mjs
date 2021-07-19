@@ -87,7 +87,7 @@ export default function TreeGraph (rootVertex) {
 
   return Object.assign(
     graph,
-    Directedness(graph),
-    Acyclicness(graph)
+    Graphness(graph),
+    Directedness(graph)
   )
 }
