@@ -176,6 +176,7 @@ function Graph (vertices, edges) {
 }
 
 export {
-    Graph,
-    Graphness
+  Graph,
+  Graphness,
+  AddsVertices
 }
