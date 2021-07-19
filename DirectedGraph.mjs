@@ -7,18 +7,19 @@ const Directedness = (self) => ({
    * a vertex is a head.
    *
    * @param int vertexId of the child
-   * @returns Vertex | null
+   * @returns array
    */
   findVertexTails (vertexId) {
     let edges = self.edges
+    let results = []
     for (let i = 0; i < edges.length; i++){
       let edge = edges[i]
       if (vertexId === edge.secondVertex.id){
-        return edge.firstVertex
+        results.push(edge.firstVertex)
       }
     }
 
-    return null
+    return results
   },
 
   /**
