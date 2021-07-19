@@ -11,7 +11,8 @@ const swapArgs = funcTools.swapArgs;
 
 // An array of files:
 // (in some OSs such as Linux) folders are (treated as) files.
-// When represented in a tree, non-folder files are the leaves.
+// When represented in a tree, non-folder files and empty folders
+// are the leaves.
 // THIS REPRESENTS AN ACYCLIC GRAPH, so each node has only one
 // parent, yet has a pedigree (a chain of ancestors). Symbolic
 // links are a topic for another day.
