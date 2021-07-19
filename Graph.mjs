@@ -22,9 +22,9 @@ const Graphness = (self) => ({
   findEdgesOfVertex (vertex) {
     let result = []
     for (let i = 0; i < self.edges.length; i++){
-      let edges = self.edges
-      if (edges.hasVertex(vertex)){
-        result.push(edges[i])
+      let edge = self.edge[i]
+      if (edge.hasVertex(vertex)){
+        result.push(edge)
       }
     }
 
