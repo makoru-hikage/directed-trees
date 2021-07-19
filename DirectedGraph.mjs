@@ -103,7 +103,7 @@ const AddsVertices = (self) => ({
   }
 })
 
-function DirectedGraph (rootVertex) {
+function DirectedGraph (vertices, edges) {
   let graph = {
     vertices,
     edges
