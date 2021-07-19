@@ -10,7 +10,7 @@ const items = [
   { id: 4, seqId: 5, parent: 1, name: "Table" },
   { id: 7, seqId: 5, parent: 5, name: "SelectableDropdown.tsx" },
   { id: 5, seqId: 2, parent: 1, name: "AssignmentTable" },
-  { id: 1, seqId: 1, parent: 3, name: "components" },
+  { id: 1, seqId: 1, parent: null, name: "components" },
   { id: 6, seqId: 2, parent: null, name: "controllers" },
 ];
 
