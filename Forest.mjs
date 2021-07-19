@@ -1,11 +1,13 @@
-import TreeGraph from './DirectedTree.mjs'
+import {DirectedTree} from './DirectedTree.mjs'
 
-export default function Forest (rootVertices) {
+function Forest (rootVertices) {
     let forest = {
         rootVertices
     }
 
-    forest.rootVertices.map( vertex => TreeGraph(vertex) )
+    forest.rootVertices.map( vertex => DirectedTree(vertex) )
 
     return Object.assign(forest)
 }
+
+export {Forest}
