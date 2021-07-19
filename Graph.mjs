@@ -19,8 +19,21 @@ const Graphness = (self) => ({
     return null
   },
 
-  findEdgesOfVertex (vertex) {
+  /**
+   * Find the edges where a vertex belongs,
+   * whether vertex there is a head or a tail
+   *
+   * @param int vertexId
+   * @returns array of Edges
+   */
+  findEdgesOfVertex (vertexId) {
     let result = []
+    let vertex = self.findVertex(vertexId)
+
+    if (vertex === null) {
+      return result
+    }
+
     for (let i = 0; i < self.edges.length; i++){
       let edge = self.edge[i]
       if (edge.hasVertex(vertex)){
@@ -31,35 +44,27 @@ const Graphness = (self) => ({
     return result
   },
 
-  findEdgesOfVertex(vertexId) {
-    return self.edges.filter( edge => {
-      let vertex = self.findVertex(vertexId)
-      let tail = edge.firstVertex
-      let head = edge.secondVertex
-
-      if( tail === null || head === null ){
-        return vertex === tail || vertex === head
-      }
-      return vertexId === tail.id || vertexId === head.id
-    })
-  },
-
-  edgeExists (firstVertex, secondVertex) {
+  /**
+   * We'll assume that this is an
+   * undirected graph. Edges 
+   * `{ firstVertex: a, secondVertex: b}`
+   * and `{ firstVertex: b, secondVertex: a}`
+   * are treated the same.
+   *
+   * @param fstVertexId int
+   * @param sndVertexId int
+   * @returns bool
+   */
+  edgeExists (fstVertexId, sndVertexId) {
     for (let i = 0; i < self.edges.length; i++){
       let tail = self.edges[i].firstVertex
       let head = self.edges[i].secondVertex
-      let targetTail = firstVertex
-      let targetHead = secondVertex
-      let bothTailsAreNull = targetTail === null && tail === null
-      let bothHeadsAreNull = targetHead === null && head === null
 
-      if( bothTailsAreNull && bothHeadsAreNull ){
-        return bothTailsAreNull && bothHeadsAreNull
-      }
-
-      if (! bothTailsAreNull && ! bothHeadsAreNull){
-        return 
-          firstVertex.id === tail.id || secondVertex.id === head.id
+      if (
+        self.findVertex(fstVertexId) && self.findVertex(sndVertexId)
+      ){
+        return (fstVertexId === tail.id && sndVertexId === head.id) 
+          || (fstVertexId === head.id && sndVertexId === tail.id)
       }
     }
 
@@ -73,9 +78,8 @@ const Graphness = (self) => ({
     for (let i = 0; i < edges.length; i++){
       let tail = edges[i].firstVertex
       let head = edges[i].secondVertex
-      let tailAndHeadNotNull = tail !== null && head !== null
 
-      if (vertex !== null && tailAndHeadNotNull) {
+      if (vertex !== null) {
         if (vertexId === tail.id){
           result.push(head)
         } else if (vertexId === head.id) {
