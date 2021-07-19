@@ -36,8 +36,8 @@ const Graphness = (self) => ({
     }
 
     for (let i = 0; i < self.edges.length; i++){
-      let edge = self.edge[i]
-      if (edge.hasVertex(vertex)){
+      let edge = self.edges[i]
+      if (edge.containsVertex(vertex)){
         result.push(edge)
       }
     }
