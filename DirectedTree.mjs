@@ -2,6 +2,37 @@ import Edge from "./Edge.mjs"
 import {Graphness} from './Graph.mjs'
 import {Directedness} from './DirectedGraph.mjs'
 
+const TreeChecks = {
+  findRootVertex (directedGraph){
+    if (directedGraph.vertices.length <= 0) {
+      return null
+    }
+
+    return directedGraph.vertices.find((vertex) =>{
+      let vertexId = vertex.id
+      let numOfTails = directedGraph.findVertexTails(vertexId).length
+      return numOfTails <= 0
+    })
+  },
+
+  allHaveOneParent (directedGraph) {
+    if (directedGraph.vertices.length <= 0) {
+      return false
+    }
+
+    for (let i = 0; i < directedGraph.vertices.length; i++) {
+      let vertexId = directedGraph.vertices[i].id
+      let numOfTails = directedGraph.findVertexTails(vertexId).length
+
+      if (numOfTails > 1) {
+        return false
+      }
+    }
+
+    return true
+  }
+}
+
 const AddsVertices = (self) => ({
   /**
    * Returns true if the vertex is successfully
@@ -51,10 +82,11 @@ function DirectedTree (rootVertex) {
     graph,
     Graphness(graph),
     Directedness(graph),
-    AddsVertices(graph)
+    AddsVertices(graph),
   )
 }
 
 export {
-  DirectedTree
+  DirectedTree,
+  TreeChecks
 }
