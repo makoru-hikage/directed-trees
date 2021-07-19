@@ -30,6 +30,7 @@ const Graphness = (self) => ({
     let result = []
     let vertex = self.findVertex(vertexId)
 
+    // First of all, the vertex must exist.
     if (vertex === null) {
       return result
     }
