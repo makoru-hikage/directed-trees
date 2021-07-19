@@ -71,7 +71,7 @@ const AddsVertices = (self) => ({
   }
 })
 
-export default function DirectedGraph (rootVertex) {
+function DirectedGraph (rootVertex) {
   let graph = {
     vertices,
     edges
@@ -83,4 +83,9 @@ export default function DirectedGraph (rootVertex) {
     Directedness(graph),
     AddsVertices(graph)
   )
+}
+
+export {
+  Directedness,
+  DirectedGraph
 }
