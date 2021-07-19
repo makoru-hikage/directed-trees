@@ -91,75 +91,75 @@ const Graphness = (self) => ({
 
 const AddsVertices = (self) => ({
 
-    /**
-     * Returns true if the vertex is successfully
-     * added, otherwise false.
-     *
-     *
-     * @param Vertex vertex 
-     * @param int parentVertexId 
-     * @returns bool
-     */
-    addVertex (vertex) {
-        let vertexId = vertex.id
+  /**
+   * Returns true if the vertex is successfully
+   * added, otherwise false.
+   *
+   *
+   * @param Vertex vertex 
+   * @param int parentVertexId 
+   * @returns bool
+   */
+  addVertex (vertex) {
+    let vertexId = vertex.id
 
-        // A vertex's uniqueness is determined by its `id`:
-        // should it exist amongst the tree's vertices...
-        // Also every vertex must have only one parent,
-        // only the `rootVertex` has no parent.
-        if (self.findVertex(vertexId)){
-            return false
-        }
-
-        self.vertices.push(vertex)
-        return true
-    },
-
-    /**
-     * Returns true if the edge is successfully
-     * added, otherwise false.
-     *
-     *
-     * @param Vertex vertex 
-     * @param int parentVertexId 
-     * @returns bool
-     */
-    addConnectedVertexPair (firstVertex, secondVertex) {
-
-        // An edge's uniqueness is determine by its pair
-        // This is a one-way edge
-        if (self.edgeExists(firstVertex, secondVertex)){
-            return false
-        }
-
-        // Add the first of the pair in the list if not
-        // yet added, the second shall be added also
-        if (firstVertex !== null){
-            self.addVertex(firstVertex)
-        }
-
-        if (secondVertex !== null){
-            self.addVertex(secondVertex)
-        }
-
-        // Create and add the Edge
-        self.edges.push(Edge(firstVertex, secondVertex))
-
-        return true
+    // A vertex's uniqueness is determined by its `id`:
+    // should it exist amongst the tree's vertices...
+    // Also every vertex must have only one parent,
+    // only the `rootVertex` has no parent.
+    if (self.findVertex(vertexId)){
+      return false
     }
+
+    self.vertices.push(vertex)
+    return true
+  },
+
+  /**
+   * Returns true if the edge is successfully
+   * added, otherwise false.
+   *
+   *
+   * @param Vertex vertex 
+   * @param int parentVertexId 
+   * @returns bool
+   */
+  addConnectedVertexPair (firstVertex, secondVertex) {
+
+    // An edge's uniqueness is determine by its pair
+    // This is a one-way edge
+    if (self.edgeExists(firstVertex, secondVertex)){
+      return false
+    }
+
+    // Add the first of the pair in the list if not
+    // yet added, the second shall be added also
+    if (firstVertex !== null){
+      self.addVertex(firstVertex)
+    }
+
+    if (secondVertex !== null){
+      self.addVertex(secondVertex)
+    }
+
+    // Create and add the Edge
+    self.edges.push(Edge(firstVertex, secondVertex))
+
+    return true
+  }
 })
 
 function Graph (vertices, edges) {
-    let graph = {
-        vertices,
-        edges
-    }
+  let graph = {
+    vertices,
+    edges
+  }
 
-    return Object.assign(
-        graph,
-        Graphness(graph),
-        AddsVertices(graph)
-    )
+  return Object.assign(
+    graph,
+    Graphness(graph),
+    AddsVertices(graph)
+  )
 }
 
 export {
