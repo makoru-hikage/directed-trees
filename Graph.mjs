@@ -153,9 +153,12 @@ const AddsVertices = (self) => ({
     }
 
     // Create and add the Edge
-    self.edges.push(Edge(firstVertex, secondVertex))
+    if (firstVertex !== null && secondVertex !== null) {
+      self.edges.push(Edge(firstVertex, secondVertex))
+      return true
+    }
 
-    return true
+    return false
   }
 })
 
