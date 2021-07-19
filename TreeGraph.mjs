@@ -1,7 +1,7 @@
 import Edge from "./Edge.mjs"
 import {Graphness} from './Graph.mjs'
 
-const Acyclicness = (self) => ({
+const Directedness = (self) => ({
   /**
    * In a Tree Graph each vertex has only
    * one parent, only the root node has a
@@ -87,7 +87,7 @@ export default function TreeGraph (rootVertex) {
 
   return Object.assign(
     graph,
-    Graphness(graph),
+    Directedness(graph),
     Acyclicness(graph)
   )
 }
