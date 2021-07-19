@@ -105,8 +105,6 @@ const AddsVertices = (self) => ({
 
     // A vertex's uniqueness is determined by its `id`:
     // should it exist amongst the tree's vertices...
-    // Also every vertex must have only one parent,
-    // only the `rootVertex` has no parent.
     if (self.findVertex(vertexId)){
       return false
     }
