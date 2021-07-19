@@ -1,7 +1,7 @@
 import Vertex from './Vertex.mjs'
-import Forest from './Forest.mjs'
-import {Graph} from './Graph.mjs'
 import {DirectedGraph} from './DirectedGraph.mjs'
+import {TreeChecks} from './DirectedTree.mjs'
+import Edge from './Edge.mjs'
 
 
 const items = [
@@ -25,31 +25,18 @@ const vertices = items.map( (item) => {
   )
 })
 
-const graph = DirectedGraph([], [])
+const graph = DirectedGraph()
 
 vertices
-  .filter(x => x.content.parent !== null )
-  .forEach((vertex) => {
+  .filter(v => v.content.parent !== null)
+  .forEach(v => {
     graph.addConnectedVertexPair(
-      vertices.find(x => x.id === vertex.content.parent ),
-      vertex)
+      vertices.find( vertex => v.content.parent === vertex.id),
+      v
+    )
   })
 
-const forest = graph.edges.map(
-  edge => {
-    let pair = { id: null, parent: null }
-    if (edge.firstVertex !== null) {
-      pair.parent = edge.firstVertex.id
-    }
-
-    if (edge.secondVertex !== null) {
-      pair.id = edge.secondVertex.id
-    }
-
-    return pair
-  }
-)
-
+let a = TreeChecks.allHaveOneParent(graph)
 //const finalItems = transformItems(vertices);
 
 /*
@@ -57,7 +44,7 @@ Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(graph.edges);
+console.dir(a);
 
 /* Output:
 // The seqId is used for ordering within siblings.
