@@ -29,9 +29,9 @@ const Directedness = (self) => ({
    */
   findVertexHeads (vertexId) {
     let edges = self.edges
+    let heads = []
     for (let i = 0; i < edges.length; i++){
       let edge = edges[i]
-      let heads = []
       if (vertexId === edge.firstVertex.id){
         heads.push(edge.secondVertex)
       }
