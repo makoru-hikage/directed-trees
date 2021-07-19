@@ -67,6 +67,13 @@ const Directedness = (self) => ({
   }
 })
 
+/**
+ * All its edges now has a direction
+ *
+ * @param array of vertices 
+ * @param array of edges 
+ * @returns 
+ */
 function DirectedGraph (vertices, edges) {
   let graph = {
     vertices,

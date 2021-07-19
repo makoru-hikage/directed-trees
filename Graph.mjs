@@ -162,6 +162,14 @@ const AddsVertices = (self) => ({
   }
 })
 
+/**
+ * A an ordinary graph, all it needs is
+ * just one vertex. Allows isolated vertices
+ *
+ * @param vertices 
+ * @param edges 
+ * @returns 
+ */
 function Graph (vertices, edges) {
   let graph = {
     vertices,
