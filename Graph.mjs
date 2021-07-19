@@ -51,8 +51,8 @@ const Graphness = (self) => ({
    * and `{ firstVertex: b, secondVertex: a}`
    * are treated the same.
    *
-   * @param fstVertexId int
-   * @param sndVertexId int
+   * @param int fstVertexId
+   * @param int sndVertexId
    * @returns bool
    */
   edgeExists (fstVertexId, sndVertexId) {
