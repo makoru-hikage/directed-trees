@@ -56,7 +56,7 @@ const AddsVertices = (self) => ({
    * @param int parentVertexId 
    * @returns bool
    */
-  addVertex (vertex, parentVertexId) {
+  addVertex (vertex) {
     let vertexId = vertex.id
 
     // A vertex's uniqueness is determined by its `id`:
