@@ -27,22 +27,21 @@ const Directedness = (self) => ({
   },
 
   /**
-   * Find a the children of a particular
-   * vertex; a 'leaf' has no children.
+   * Find the heads of the edges of a vertex
    *
-   * @param int vertexId of the supposed parent 
-   * @returns array of Vertices
+   * @param int vertexId of the supposed tail 
+   * @returns array of head Vertices
    */
-  findVertexChildren (vertexId) {
+  findVertexHeads (vertexId) {
     let edges = self.edges
     for (let i = 0; i < edges.length; i++){
       let edge = edges[i]
-      let children = []
+      let heads = []
       if (vertexId === edge.firstVertex.id){
-        children.push(edge.secondVertex)
+        heads.push(edge.secondVertex)
       }
 
-      return children
+      return heads
     }
   }
 })
@@ -67,6 +66,39 @@ const AddsVertices = (self) => ({
     }
 
     self.vertices.push(vertex)
+    return true
+  },
+
+  /**
+   * Returns true if the edge is successfully
+   * added, otherwise false.
+   *
+   *
+   * @param Vertex vertex 
+   * @param int parentVertexId 
+   * @returns bool
+   */
+   addConnectedVertexPair (firstVertex, secondVertex) {
+
+    // An edge's uniqueness is determine by its pair
+    // This is a one-way edge
+    if (self.edgeExists(firstVertex, secondVertex)){
+      return false
+    }
+
+    // Add the first of the pair in the list if not
+    // yet added, the second shall be added also
+    if (firstVertex !== null){
+      self.addVertex(firstVertex)
+    }
+
+    if (secondVertex !== null){
+      self.addVertex(secondVertex)
+    }
+
+    // Create and add the Edge
+    self.edges.push(Edge(firstVertex, secondVertex))
+
     return true
   }
 })
