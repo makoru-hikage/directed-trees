@@ -1,55 +1,91 @@
 import Edge from './Edge.mjs'
 
 const Graphness = (self) => ({
-    /**
-     * Find a particular vertex by its id;
-     * return null if it does not exist
-     *
-     * @param int vertexId 
-     * @returns Vertex | null
-     */
-    findVertex (vertexId) {
-        let vertices = self.vertices
-        for (let i = 0; i < vertices.length; i++){
-            if (vertexId === vertices[i].id){
-                return vertices[i]
-            }
-        }
+  /**
+   * Find a particular vertex by its id;
+   * return null if it does not exist
+   *
+   * @param int vertexId 
+   * @returns Vertex | null
+   */
+  findVertex (vertexId) {
+    let vertices = self.vertices
+    let vertex = vertices.find(v => vertexId === v.id)
 
-        return null
-    },
-
-    findEdgesOfVertex (vertex) {
-        let result = []
-        for (let i = 0; i < self.edges.length; i++){
-            let edges = self.edges
-            if (edges.hasVertex(vertex)){
-                result.push(edges[i])
-            }
-        }
-
-        return result
-    },
-
-    edgeExists (firstVertex, secondVertex) {
-        let result = false
-        for (let i = 0; i < self.edges.length; i++){
-            let edges = self.edges
-
-            if (firstVertex !== null && secondVertex !== null){
-                result = edges[i].firstVertex.id === firstVertex.id
-                    && edges[i].secondVertex.id === secondVertex.id
-            } else if (firstVertex === null && secondVertex !== null){
-                result = edges[i].firstVertex === firstVertex
-                    && edges[i].secondVertex.id === secondVertex.id
-            } else if (firstVertex !== null && secondVertex === null){
-                result = edges[i].firstVertex.id === firstVertex.id
-                    && edges[i].secondVertex === secondVertex
-            }
-        }
-
-        return result
+    if (vertex){
+      return vertex
     }
+
+    return null
+  },
+
+  findEdgesOfVertex (vertex) {
+    let result = []
+    for (let i = 0; i < self.edges.length; i++){
+      let edges = self.edges
+      if (edges.hasVertex(vertex)){
+        result.push(edges[i])
+      }
+    }
+
+    return result
+  },
+
+  findEdgesOfVertex(vertexId) {
+    return self.edges.filter( edge => {
+      let vertex = self.findVertex(vertexId)
+      let tail = edge.firstVertex
+      let head = edge.secondVertex
+
+      if( tail === null || head === null ){
+        return vertex === tail || vertex === head
+      }
+      return vertexId === tail.id || vertexId === head.id
+    })
+  },
+
+  edgeExists (firstVertex, secondVertex) {
+    for (let i = 0; i < self.edges.length; i++){
+      let tail = self.edges[i].firstVertex
+      let head = self.edges[i].secondVertex
+      let targetTail = firstVertex
+      let targetHead = secondVertex
+      let bothTailsAreNull = targetTail === null && tail === null
+      let bothHeadsAreNull = targetHead === null && head === null
+
+      if( bothTailsAreNull && bothHeadsAreNull ){
+        return bothTailsAreNull && bothHeadsAreNull
+      }
+
+      if (! bothTailsAreNull && ! bothHeadsAreNull){
+        return 
+          firstVertex.id === tail.id || secondVertex.id === head.id
+      }
+    }
+
+    return false
+  },
+
+  findAdjacentVertices(vertexId){
+    let result = []
+    let vertex = self.findVertex(vertexId)
+    let edges = self.findEdgesOfVertex(vertexId)
+    for (let i = 0; i < edges.length; i++){
+      let tail = edges[i].firstVertex
+      let head = edges[i].secondVertex
+      let tailAndHeadNotNull = tail !== null && head !== null
+
+      if (vertex !== null && tailAndHeadNotNull) {
+        if (vertexId === tail.id){
+          result.push(head)
+        } else if (vertexId === head.id) {
+          result.push(tail)
+        }
+      }
+    }
+
+    return result
+  }
 
 })
 
