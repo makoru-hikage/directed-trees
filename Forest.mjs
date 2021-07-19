@@ -1,4 +1,4 @@
-import TreeGraph from './TreeGraph.mjs'
+import TreeGraph from './DirectedTree.mjs'
 
 export default function Forest (rootVertices) {
     let forest = {
