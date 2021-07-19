@@ -37,10 +37,8 @@ const Directedness = (self) => ({
       let tail = self.edges[i].firstVertex
       let head = self.edges[i].secondVertex
 
-      if (
-        self.findVertex(fstVertexId) && self.findVertex(sndVertexId)
-      ){
-        return (fstVertexId === tail.id && sndVertexId === head.id)
+      if (fstVertexId === tail.id && sndVertexId === head.id){
+        return true
       }
     }
 
