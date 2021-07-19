@@ -71,6 +71,13 @@ const Graphness = (self) => ({
     return false
   },
 
+  /**
+   * Find the adjacent vertices by 
+   * looking at the edges
+   *
+   * @param int
+   * @returns array of Vertices
+   */
   findAdjacentVertices(vertexId){
     let result = []
     let vertex = self.findVertex(vertexId)
