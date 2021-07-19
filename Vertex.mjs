@@ -1,5 +1,5 @@
 
-const comparePrecedence = (self) => (
+const vertexChecks = (self) => ({
     /**
      * Should this return a negative number, 
      * it means that it precedes `anotherVertex`,
@@ -9,10 +9,14 @@ const comparePrecedence = (self) => (
      * @param Vertex anotherVertex 
      * @returns int
      */
-    (anotherVertex)=> {
+    compareVertex (anotherVertex) {
         return self.seqId - anotherVertex.seqId
+    },
+
+    findInVertices (vertices) {
+        vertices.find( vertex => vertex.id === self.id )
     }
-)
+})
 
 /**
  * 
@@ -30,6 +34,6 @@ export default function Vertex (id, seqId, content){
 
     return Object.assign(
         vertex,
-        comparePrecedence(comparePrecedence)
+        vertexChecks(vertex)
     )
 }
