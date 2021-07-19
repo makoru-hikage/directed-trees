@@ -24,18 +24,6 @@ const vertices = items.map( (item) => {
   )
 })
 
-const rootVertices = vertices.filter( 
-  vertex => vertex.content.parent === null
-)
-
-const nonRootVertices = vertices.filter( 
-  vertex => vertex.content.parent !== null
-)
-
-const a = (vertexId) => {
-
-}
-
 const graph = Graph([], [])
 
 vertices.forEach((vertex) => {
