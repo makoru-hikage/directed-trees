@@ -10,7 +10,7 @@ const items = [
   { id: 4, seqId: 5, parent: 1, name: "Table" },
   { id: 7, seqId: 5, parent: 5, name: "SelectableDropdown.tsx" },
   { id: 5, seqId: 2, parent: 1, name: "AssignmentTable" },
-  { id: 1, seqId: 1, parent: null, name: "components" },
+  { id: 1, seqId: 1, parent: 3, name: "components" },
   { id: 6, seqId: 2, parent: null, name: "controllers" },
 ];
 
@@ -27,11 +27,13 @@ const vertices = items.map( (item) => {
 
 const graph = DirectedGraph([], [])
 
-vertices.forEach((vertex) => {
-  graph.addConnectedVertexPair(
-    vertices.find(x => x.id === vertex.content.parent ) || null,
-    vertex)
-})
+vertices
+  .filter(x => x.content.parent !== null )
+  .forEach((vertex) => {
+    graph.addConnectedVertexPair(
+      vertices.find(x => x.id === vertex.content.parent ),
+      vertex)
+  })
 
 const forest = graph.edges.map(
   edge => {
@@ -55,7 +57,7 @@ Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(graph.findVertexTails(5));
+console.dir(graph.edges);
 
 /* Output:
 // The seqId is used for ordering within siblings.
