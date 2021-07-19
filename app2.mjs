@@ -1,6 +1,7 @@
 import Vertex from './Vertex.mjs'
 import Forest from './Forest.mjs'
 import {Graph} from './Graph.mjs'
+import {DirectedGraph} from './DirectedGraph.mjs'
 
 
 const items = [
@@ -24,7 +25,7 @@ const vertices = items.map( (item) => {
   )
 })
 
-const graph = Graph([], [])
+const graph = DirectedGraph([], [])
 
 vertices.forEach((vertex) => {
   graph.addConnectedVertexPair(
@@ -54,7 +55,7 @@ Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(forest);
+console.dir(graph.findVertexTails(5));
 
 /* Output:
 // The seqId is used for ordering within siblings.
