@@ -3,23 +3,18 @@ import {Graphness} from './Graph.mjs'
 
 const Directedness = (self) => ({
   /**
-   * In a Tree Graph each vertex has only
-   * one parent, only the root node has a
-   * null parent
+   * Find the tails of the edges where
+   * a vertex is a head.
    *
    * @param int vertexId of the child
    * @returns Vertex | null
    */
-  findVertexParent (vertexId) {
+  findVertexTails (vertexId) {
     let edges = self.edges
     for (let i = 0; i < edges.length; i++){
       let edge = edges[i]
       if (vertexId === edge.secondVertex.id){
         return edge.firstVertex
-      }
-
-      if (vertexId === self.rootVertexId){
-        return self.rootVertex
       }
     }
 
