@@ -31,16 +31,21 @@ const AddsVertices = (self) => ({
   }
 })
 
-export default function TreeGraph (rootVertex) {
+/**
+ * Each vertex has only one parent if there are any
+ * Only the rootVertex has no parent
+ *
+ * @param Vertex rootVertex 
+ * @returns 
+ */
+function DirectedTree (rootVertex) {
   let graph = {
     rootVertex,
-    rootVertexId: rootVertex,
     vertices: [],
     edges: []
   }
 
   graph.vertices.push(rootVertex)
-  graph.rootVertexId = rootVertex.id
 
   return Object.assign(
     graph,
@@ -48,4 +53,8 @@ export default function TreeGraph (rootVertex) {
     Directedness(graph),
     AddsVertices(graph)
   )
+}
+
+export {
+  DirectedTree
 }
