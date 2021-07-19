@@ -75,19 +75,19 @@ const Acyclicness = (self) => ({
 })
 
 export default function TreeGraph (rootVertex) {
-    let graph = {
-        rootVertex,
-        rootVertexId: rootVertex,
-        vertices: [],
-        edges: []
-    }
+  let graph = {
+    rootVertex,
+    rootVertexId: rootVertex,
+    vertices: [],
+    edges: []
+  }
 
-    graph.vertices.push(rootVertex)
-    graph.rootVertexId = rootVertex.id
+  graph.vertices.push(rootVertex)
+  graph.rootVertexId = rootVertex.id
 
-    return Object.assign(
-        graph,
-        Graphness(graph),
-        Acyclicness(graph)
-    )
+  return Object.assign(
+    graph,
+    Graphness(graph),
+    Acyclicness(graph)
+  )
 }
