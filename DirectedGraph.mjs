@@ -1,4 +1,3 @@
-import Edge from "./Edge.mjs"
 import { Graphness, AddsVertices } from './Graph.mjs'
 
 const Directedness = (self) => ({
