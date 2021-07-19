@@ -39,6 +39,31 @@ const Directedness = (self) => ({
 
       return heads
     }
+  },
+
+  /**
+   * This is a directed graph. Edges 
+   * `{ firstVertex: a, secondVertex: b}`
+   * and `{ firstVertex: b, secondVertex: a}`
+   * are treated differently.
+   *
+   * @param int fstVertexId
+   * @param int sndVertexId
+   * @returns bool
+   */
+  edgeExists (fstVertexId, sndVertexId) {
+    for (let i = 0; i < self.edges.length; i++){
+      let tail = self.edges[i].firstVertex
+      let head = self.edges[i].secondVertex
+
+      if (
+        self.findVertex(fstVertexId) && self.findVertex(sndVertexId)
+      ){
+        return (fstVertexId === tail.id && sndVertexId === head.id)
+      }
+    }
+
+    return false
   }
 })
 
