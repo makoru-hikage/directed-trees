@@ -73,12 +73,17 @@ const transformItems = (items) => {
   // onto the graph
   vertices
     .forEach(v => {
+      // This creates Edges that connects
+      // a parent and child
       if (v.content.parent !== null){
         graph.addConnectedVertexPair(
           vertices.find( vertex => v.content.parent === vertex.id),
           v
         )
-      } else { graph.addVertex(v) }
+      } else {
+        // This is meant for isolated vertices
+        graph.addVertex(v)
+      }
     })
 
   // Transform them based on the expected output
