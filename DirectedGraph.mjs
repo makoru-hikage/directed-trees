@@ -9,7 +9,9 @@ const Directedness = (self) => ({
    * @returns array
    */
   findVertexTails (vertexId) {
-    return self.edges.filter(edge => vertexId === edge.secondVertex.id)
+    return self.edges
+      .filter(edge => vertexId === edge.secondVertex.id)
+      .map(edge => edge.firstVertex)
   },
 
   /**
@@ -19,7 +21,9 @@ const Directedness = (self) => ({
    * @returns array of head Vertices
    */
   findVertexHeads (vertexId) {
-    return self.edges.filter(edge => vertexId === edge.firstVertex.id)
+    return self.edges
+      .filter(edge => vertexId === edge.firstVertex.id)
+      .map(edge => edge.secondVertex)
   },
 
   /**
