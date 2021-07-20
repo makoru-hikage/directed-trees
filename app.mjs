@@ -49,6 +49,7 @@ const flattenTree = (root, key) => {
 
 const transformItems = (items) => {
 
+  // Turn them into Vertices
   const vertices = items.map( (item) => {
     return Vertex(
       item.id,
@@ -59,11 +60,17 @@ const transformItems = (items) => {
       }
     )
   })
-  
+
+  // Create a Graph
   const graph = DirectedGraph([],[])
   const potentialForest = Object.assign(
-    graph, DirectedTreeTrait(graph),ForestTrait(graph))
-  
+    graph,
+    DirectedTreeTrait(graph),
+    ForestTrait(graph)
+  )
+
+  // Introduce the aforementioned vertices
+  // onto the graph
   vertices
     .forEach(v => {
       if (v.content.parent !== null){
@@ -74,9 +81,15 @@ const transformItems = (items) => {
       } else { graph.addVertex(v) }
     })
 
-  return potentialForest.toForest()
+  // Transform them based on the expected output
+  return potentialForest
+    // Create two nested objects
+    .toForest()
+    // flattenTree returns an array
     .map(x => flattenTree(x, 'children'))
+    // so it must be flattened thereafter
     .flat(1)
+    // transform according to the expected output
     .map(x => ({
       id: x.id,
       seqId: x.seqId,
