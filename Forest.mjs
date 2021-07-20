@@ -27,7 +27,7 @@ const ForestTrait = (directedGraph) => ({
    *
    * @returns array of nested objects
    */
-   toForest () {
+  toForest () {
     let vertices = directedGraph.vertices
 
     /**
@@ -56,14 +56,13 @@ const ForestTrait = (directedGraph) => ({
 
 
     return vertices
-      // Find the 'roots' of the forest
+      // Nidify them all, some won't be parents
+      .map(nidify)
       .filter( potentialRoot => 
         directedGraph
           .findRootVertices()
           .some(vertex => vertex.id === potentialRoot.id)
       )
-      // Nidify them
-      .map(nidify)
   }
 })
 
