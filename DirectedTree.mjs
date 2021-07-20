@@ -110,21 +110,19 @@ const TreeCheck = (directedGraph) => ({
    */
   nidifyVertices () {
     let vertices = directedGraph.vertices
-  
+
     const nidify = vertex => {
-      let children = directedGraph.findVertexHeads(vertex.id)
-  
-      vertex.children = children
-      vertex.children.sort( (v1, v2) => v1.seqId - v2.seqId )
+      vertex.children = directedGraph
+        .findVertexHeads(vertex.id)
+        .sort((v1, v2) => v1.seqId - v2.seqId)
       return vertex
-  
     }
-  
+
     directedGraph.treeRoot = vertices
       .map(nidify)
       .filter( x => directedGraph.findRootVertex().id === x.id )
       [0]
-  
+
     return directedGraph
   }
 })
