@@ -1,4 +1,5 @@
 import Edge from './Edge.mjs'
+import {compareVertices} from './Vertex.mjs'
 
 const Graphness = (self) => ({
   /**
@@ -98,6 +99,16 @@ const Graphness = (self) => ({
     }
 
     return result
+  },
+
+  /**
+   * Sorts all the vertices by seqId
+   * @param id 
+   * @returns 
+   */
+  sortVerticesBySeqId() {
+    self.vertices.sort(compareVertices)
+    return self
   }
 
 })
