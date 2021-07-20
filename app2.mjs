@@ -1,7 +1,6 @@
-import Vertex from './Vertex.mjs'
+import {Vertex} from './Vertex.mjs'
 import {DirectedGraph} from './DirectedGraph.mjs'
-import {TreeChecks} from './DirectedTree.mjs'
-import Edge from './Edge.mjs'
+import { TreeCheck } from './DirectedTree.mjs';
 
 
 const items = [
@@ -25,7 +24,8 @@ const vertices = items.map( (item) => {
   )
 })
 
-const graph = DirectedGraph()
+const graph = DirectedGraph([],[])
+const TreeGraph = Object.assign(graph, TreeCheck(graph))
 
 vertices
   .filter(v => v.content.parent !== null)
@@ -36,7 +36,39 @@ vertices
     )
   })
 
-let a = TreeChecks.allHaveOneParent(graph)
+//let a = TreeGraph.nidifyVertices(graph).treeRoot
+
+/**
+ * From: https://github.com/cantidio/node-tree-flatten/tree/v1.0.0
+ * Copyright (c) 2016 Cantidio Fontes
+ * 
+ * @param array - of Nodes
+ * @returns array
+ */
+ const flattenTree = (root, key) => {
+  // Make a copy of the vertex to the array
+  let flatten = [Object.assign({}, root)];
+  // Delete the chosen property of the copy, 
+  // the 'vertex' is not modified in any way
+  delete flatten[0][key];
+
+  // If the chosen property exists and it's
+  // a non-empty array
+  if (root[key] && root[key].length > 0) {
+
+    return flatten.concat(
+      root[key]
+        // Do the same to the child vertices
+        // with the aforementioned property
+        .map((child)=>flattenTree(child, key))
+        // Concatenate the arrays of children
+        .reduce((a, b)=>a.concat(b), [])
+    );
+  }
+  // End
+  return flatten;
+}
+
 //const finalItems = transformItems(vertices);
 
 /*
@@ -44,7 +76,7 @@ Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(a);
+console.dir(TreeGraph.findPathToRoot(7));
 
 /* Output:
 // The seqId is used for ordering within siblings.
