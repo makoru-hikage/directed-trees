@@ -101,18 +101,33 @@ const TreeCheck = (directedGraph) => ({
 
   },
 
+  /**
+   * Check whether all non-root children have 
+   * acyclic and non-forked path
+   *
+   * @returns 
+   */
   allEndsToRoot(){
     let vertices = directedGraph.vertices
     let root = directedGraph.findRootVertex()
 
     for (let i = 0; i < vertices.length; i++) {
       const vertex = vertices[i]
+
+      // Save us a recursion: findPathToRoot(root.id)
+      if (vertex.id === root.id){
+        continue
+      }
+
       // This is a series of Edges
       const pedigree = directedGraph.findPathToRoot(vertex.id)
-      // The last edge of the aforementioned series
 
+      // If `pedigree.length === 0`, it's forked.
       if (pedigree.length > 0){
+        // The last edge of the aforementioned series
         const topEdge = pedigree[pedigree.length - 1]
+
+        // It's supposed to be root
         const supposedRoot = topEdge.firstVertex
         if (supposedRoot.id !== root.id){
           return false
