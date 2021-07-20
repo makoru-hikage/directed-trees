@@ -9,18 +9,23 @@ const TreeCheck = (directedGraph) => ({
    * It looks for the first vertex that
    * isn't a head of an edge.
    * 
-   * @returns Vertex
+   * @returns Vertex | null
    */
   findRootVertex (){
     if (directedGraph.vertices.length <= 0) {
       return null
     }
 
-    return directedGraph.vertices.find((vertex) =>{
+    let root = directedGraph.vertices.find((vertex) =>{
       let vertexId = vertex.id
       let numOfTails = directedGraph.findVertexTails(vertexId).length
       return numOfTails <= 0
     })
+
+    // Either return a Vertex or a null, not `undefined`
+    if (! root ) {
+      return null
+    }
   },
 
   /**
@@ -137,6 +142,27 @@ const TreeCheck = (directedGraph) => ({
 
     return true
   },
+
+  /**
+   * Checks if the graph is a tree.
+   *
+   * @returns bool
+   */
+  isValidTree(){
+
+    let root = directedGraph.findRootVertex()
+
+    return (
+      // Do they have a root vertex?
+      root !== null
+        // Do all vertices have one parent?
+        && directedGraph.allHaveOneParent()
+        // and do all vertices have an acyclic
+        // non-forked path to the root?
+        && directedGraph.allEndsToRoot()
+    )
+  },
+
 
   /**
    * To nidify is to create a nest.
