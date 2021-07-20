@@ -22,7 +22,7 @@ const compareVertices = (vertex1, vertex2) => {
  * @returns Vertex - itself
  */
 const findInVertices = (haystack, needle) => {
-    haystack.find( vertex => vertex.id === needle )
+    return haystack.find( vertex => vertex.id === needle )
 }
 
 
