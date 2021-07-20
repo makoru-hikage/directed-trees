@@ -26,6 +26,8 @@ const TreeCheck = (directedGraph) => ({
     if (! root ) {
       return null
     }
+
+    return root
   },
 
   /**
@@ -115,6 +117,10 @@ const TreeCheck = (directedGraph) => ({
   allEndsToRoot(){
     let vertices = directedGraph.vertices
     let root = directedGraph.findRootVertex()
+
+    if (root === null){
+      return false
+    }
 
     for (let i = 0; i < vertices.length; i++) {
       const vertex = vertices[i]
