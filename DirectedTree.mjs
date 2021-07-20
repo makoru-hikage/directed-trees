@@ -101,6 +101,28 @@ const TreeCheck = (directedGraph) => ({
 
   },
 
+  allEndsToRoot(){
+    let vertices = directedGraph.vertices
+    let root = directedGraph.findRootVertex()
+
+    for (let i = 0; i < vertices.length; i++) {
+      const vertex = vertices[i]
+      // This is a series of Edges
+      const pedigree = directedGraph.findPathToRoot(vertex.id)
+      // The last edge of the aforementioned series
+
+      if (pedigree.length > 0){
+        const topEdge = pedigree[pedigree.length - 1]
+        const supposedRoot = topEdge.firstVertex
+        if (supposedRoot.id !== root.id){
+          return false
+        }
+      }
+    }
+
+    return true
+  },
+
   /**
    * To nidify is to create a nest.
    * Create a nest of vertices and
