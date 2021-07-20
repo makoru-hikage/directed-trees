@@ -29,18 +29,18 @@ const DirectedTreeTrait = (directedGraph) => ({
       return null
     }
 
-    let root = directedGraph.vertices.find((vertex) =>{
+    let root = directedGraph.vertices.filter((vertex) =>{
       let vertexId = vertex.id
       let numOfTails = directedGraph.findVertexTails(vertexId).length
       return numOfTails <= 0
     })
 
-    // Either return a Vertex or a null, not `undefined`
-    if (! root ) {
-      return null
+    if ( root.length === 1 ){
+      return root[0]
     }
 
-    return root
+    return null
+
   },
 
   /**
@@ -206,6 +206,27 @@ const DirectedTreeTrait = (directedGraph) => ({
       [0]
 
     return directedGraph
+  },
+
+  /**
+   * Returns a nested object
+   *
+   * @returns Vertex | null
+   */
+  toTree(){
+    if (directedGraph.isValidTree()){
+      directedGraph.vertices = directedGraph.vertices.map(
+        vertex => {
+          let path = directedGraph.findPathToRoot(vertex.id)
+          vertex.depth = path.length
+          return vertex
+        }
+      )
+      directedGraph.nidifyVertices()
+      return directedGraph.treeRoot
+    }
+
+    return null
   }
 })
 
