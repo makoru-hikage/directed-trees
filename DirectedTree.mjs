@@ -4,6 +4,13 @@ import {Directedness} from './DirectedGraph.mjs'
 
 
 const TreeCheck = (directedGraph) => ({
+  /**
+   * Find the root of a directedGraph.
+   * It looks for the first vertex that
+   * isn't a head of an edge.
+   * 
+   * @returns Vertex
+   */
   findRootVertex (){
     if (directedGraph.vertices.length <= 0) {
       return null
@@ -16,6 +23,13 @@ const TreeCheck = (directedGraph) => ({
     })
   },
 
+  /**
+   * Checks if all of the vertices, except the root,
+   * have only one parent. Returns false when no vertices
+   * exist.
+   *
+   * @returns bool
+   */
   allHaveOneParent () {
     if (directedGraph.vertices.length <= 0) {
       return false
@@ -87,6 +101,13 @@ const TreeCheck = (directedGraph) => ({
 
   },
 
+  /**
+   * To nidify is to create a nest.
+   * Create a nest of vertices and
+   * makes it a property of a graph
+   *
+   * @returns DirectedGraph
+   */
   nidifyVertices () {
     let vertices = directedGraph.vertices
   
