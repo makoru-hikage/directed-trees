@@ -34,10 +34,15 @@ const TreeCheck = (directedGraph) => ({
   },
 
   /**
-   * 
+   * This will return an empty array if the vertexId
+   * belongs to root or the path is forked.
+   * If there is an edge with a head that matches
+   * any other edge's tail, it indicates a circular path
+   *
+   *
    * @param DirectedGraph directedGraph 
    * @param int vertexId - the starting vertex
-   * @param edgesPassed 
+   * @param verticesPassed 
    * @return array of Edges
    */
   findPathToRoot (vertexId, edgesPassed = []) {
@@ -47,16 +52,38 @@ const TreeCheck = (directedGraph) => ({
       return edgesPassed
     }
 
-    let edges = directedGraph.findVertexTails(vertexId)
+    // Find all the edges where the vertex is a head,
+    // in this context a child.
+    let edges = directedGraph
+      .findEdgesOfVertex(vertexId)
+      .filter(edge => edge.secondVertex.id === vertexId )
 
+    // A child must have only one parent,
+    // if edges.length === 0, perhaps, it's the root
     if (edges.length !== 1) {
       return edgesPassed
     }
 
-    let tail = edges[0].firstVertex.id
+    // Get the tail, in this context, the parent
+    let nextVertexId = edges[0].firstVertex.id
 
+    // Record the edges
     edgesPassed.push(edges[0])
-    return directedGraph.findPathToRoot(tail, edgesPassed)
+
+    // Check the passedEdges, should there be
+    // edges whose head matches the parent 
+    // aforementioned, it indicates a cycle
+    let cyclePoints = edgesPassed.filter(
+      edge => edge.secondVertex.id === nextVertexId
+    )
+
+    // End immediately if there's a cycle
+    // The cycle will be indicated
+    if (cyclePoints.length > 0){
+      return edgesPassed
+    }
+
+    return directedGraph.findPathToRoot(nextVertexId, edgesPassed)
 
   },
 
