@@ -102,6 +102,19 @@ const Graphness = (self) => ({
   },
 
   /**
+   * Finds any isolated vertices.
+   *
+   * @returns array of Vertices
+   */
+  findIsolatedVertices(){
+    return self.vertices.filter(
+      vertex => {
+        return self.findAdjacentVertices(vertex.id) <= 0
+      }
+    )
+  },
+
+  /**
    * Sorts all the vertices by seqId
    * @param id 
    * @returns 
