@@ -3,61 +3,83 @@ import {Graphness} from './Graph.mjs'
 import {Directedness} from './DirectedGraph.mjs'
 
 
-const findRootVertex = (directedGraph) => {
-  if (directedGraph.vertices.length <= 0) {
-    return null
-  }
+const TreeCheck = (directedGraph) => ({
+  findRootVertex (){
+    if (directedGraph.vertices.length <= 0) {
+      return null
+    }
 
-  return directedGraph.vertices.find((vertex) =>{
-    let vertexId = vertex.id
-    let numOfTails = directedGraph.findVertexTails(vertexId).length
-    return numOfTails <= 0
-  })
-}
+    return directedGraph.vertices.find((vertex) =>{
+      let vertexId = vertex.id
+      let numOfTails = directedGraph.findVertexTails(vertexId).length
+      return numOfTails <= 0
+    })
+  },
 
-const allHaveOneParent = (directedGraph) => {
-  if (directedGraph.vertices.length <= 0) {
-    return false
-  }
-
-  for (let i = 0; i < directedGraph.vertices.length; i++) {
-    let vertexId = directedGraph.vertices[i].id
-    let numOfTails = directedGraph.findVertexTails(vertexId).length
-
-    if (numOfTails > 1) {
+  allHaveOneParent () {
+    if (directedGraph.vertices.length <= 0) {
       return false
     }
+
+    for (let i = 0; i < directedGraph.vertices.length; i++) {
+      let vertexId = directedGraph.vertices[i].id
+      let numOfTails = directedGraph.findVertexTails(vertexId).length
+
+      if (numOfTails > 1) {
+        return false
+      }
+    }
+
+    return true
+  },
+
+  /**
+   * 
+   * @param DirectedGraph directedGraph 
+   * @param int vertexId - the starting vertex
+   * @param edgesPassed 
+   * @return array of Edges
+   */
+  findPathToRoot (vertexId, edgesPassed = []) {
+    let vertex = directedGraph.findVertex(vertexId)
+
+    if (vertex === null){
+      return edgesPassed
+    }
+
+    let edges = directedGraph.findVertexTails(vertexId)
+
+    if (edges.length !== 1) {
+      return edgesPassed
+    }
+
+    let tail = edges[0].firstVertex.id
+
+    edgesPassed.push(edges[0])
+    return directedGraph.findPathToRoot(tail, edgesPassed)
+
+  },
+
+  nidifyVertices () {
+    let vertices = directedGraph.vertices
+  
+    const nidify = vertex => {
+      let children = directedGraph.findVertexHeads(vertex.id)
+  
+      vertex.children = children
+      vertex.children.sort( (v1, v2) => v1.seqId - v2.seqId )
+      return vertex
+  
+    }
+  
+    directedGraph.treeRoot = vertices
+      .map(nidify)
+      .filter( x => directedGraph.findRootVertex().id === x.id )
+      [0]
+  
+    return directedGraph
   }
-
-  return true
-}
-
-/**
- * 
- * @param DirectedGraph directedGraph 
- * @param int vertexId - the starting vertex
- * @param edgesPassed 
- * @return array of Edges
- */
-const findPathToRoot = (directedGraph, vertexId, edgesPassed = []) => {
-  let vertex = directedGraph.findVertex(vertexId)
-
-  if (vertex === null){
-    return edgesPassed
-  }
-
-  let edges = directedGraph.findVertexTails(vertexId)
-
-  if (edges.length !== 1) {
-    return edgesPassed
-  }
-
-  let tail = edges[0].firstVertex.id
-
-  edgesPassed.push(edges[0])
-  return findPathToRoot(directedGraph, tail, edgesPassed)
-
-}
+})
 
 const AddsVertices = (self) => ({
   /**
@@ -69,7 +91,7 @@ const AddsVertices = (self) => ({
    * @param int parentVertexId 
    * @returns bool
    */
-   addVertex (vertex, parentVertexId) {
+  addVertex (vertex, parentVertexId) {
     let vertexId = vertex.id
     let parentVertex = self.findVertex(parentVertexId)
 
@@ -87,25 +109,6 @@ const AddsVertices = (self) => ({
 
   }
 })
-
-const nidifyVertices = (directedGraph) => {
-  let vertices = directedGraph.vertices
-
-  const nidify = vertex => {
-    let children = directedGraph.findVertexHeads(vertex.id)
-
-    vertex.children = children
-    vertex.children.sort( (v1, v2) => v1.seqId - v2.seqId )
-    return vertex
-
-  }
-
-  directedGraph.treeRoot = vertices
-    .map(nidify)
-    .filter( x => findRootVertex(directedGraph).id === x.id )[0]
-
-  return directedGraph
-}
 
 /**
  * A graph is a tree when:
@@ -142,8 +145,5 @@ function DirectedTree (rootVertex) {
 
 export {
   DirectedTree,
-  findRootVertex,
-  allHaveOneParent,
-  findPathToRoot,
-  nidifyVertices
+  TreeCheck
 }
