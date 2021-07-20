@@ -105,7 +105,7 @@ const TreeCheck = (directedGraph) => ({
    * Check whether all non-root children have 
    * acyclic and non-forked path
    *
-   * @returns 
+   * @returns bool
    */
   allEndsToRoot(){
     let vertices = directedGraph.vertices
