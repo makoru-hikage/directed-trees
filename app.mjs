@@ -1,6 +1,7 @@
-import {Vertex} from './Vertex.mjs'
-import {DirectedGraph} from './DirectedGraph.mjs'
-import { TreeCheck } from './DirectedTree.mjs';
+import { Vertex } from './Vertex.mjs'
+import { DirectedGraph } from './DirectedGraph.mjs'
+import { DirectedTreeTrait } from './DirectedTree.mjs';
+import { ForestTrait } from './Forest.mjs';
 
 
 const items = [
@@ -13,30 +14,7 @@ const items = [
   { id: 6, seqId: 2, parent: null, name: "controllers" },
 ];
 
-const vertices = items.map( (item) => {
-  return Vertex(
-    item.id,
-    item.seqId,
-    {
-      parent: item.parent,
-      name: item.name
-    }
-  )
-})
 
-const graph = DirectedGraph([],[])
-const TreeGraph = Object.assign(graph, TreeCheck(graph))
-
-vertices
-  .filter(v => v.content.parent !== null)
-  .forEach(v => {
-    graph.addConnectedVertexPair(
-      vertices.find( vertex => v.content.parent === vertex.id),
-      v
-    )
-  })
-
-//let a = TreeGraph.nidifyVertices(graph).treeRoot
 
 /**
  * From: https://github.com/cantidio/node-tree-flatten/tree/v1.0.0
@@ -45,7 +23,7 @@ vertices
  * @param array - of Nodes
  * @returns array
  */
- const flattenTree = (root, key) => {
+const flattenTree = (root, key) => {
   // Make a copy of the vertex to the array
   let flatten = [Object.assign({}, root)];
   // Delete the chosen property of the copy, 
@@ -69,14 +47,53 @@ vertices
   return flatten;
 }
 
-//const finalItems = transformItems(vertices);
+const transformItems = (items) => {
+
+  const vertices = items.map( (item) => {
+    return Vertex(
+      item.id,
+      item.seqId,
+      {
+        parent: item.parent,
+        name: item.name
+      }
+    )
+  })
+  
+  const graph = DirectedGraph([],[])
+  const potentialForest = Object.assign(
+    graph, DirectedTreeTrait(graph),ForestTrait(graph))
+  
+  vertices
+    .forEach(v => {
+      if (v.content.parent !== null){
+        graph.addConnectedVertexPair(
+          vertices.find( vertex => v.content.parent === vertex.id),
+          v
+        )
+      } else { graph.addVertex(v) }
+    })
+
+  return potentialForest.toForest()
+    .map(x => flattenTree(x, 'children'))
+    .flat(1)
+    .map(x => ({
+      id: x.id,
+      seqId: x.seqId,
+      parent: x.content.parent,
+      depth: x.depth,
+      name: x.content.name
+    }))
+}
+
+const finalItems = transformItems(items);
 
 /*
 Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(TreeGraph.allEndsToRoot());
+console.log(finalItems);
 
 /* Output:
 // The seqId is used for ordering within siblings.
