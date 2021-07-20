@@ -1,17 +1,17 @@
 
 const vertexChecks = (self) => ({
     /**
-     * Should this return a negative number, 
-     * it means that it precedes `anotherVertex`,
-     * should it be zero, it has the same precedence
-     * if this has positive precedence, it follows.
+     * Should this return a positive number, 
+     * it means that `vertex2` precedes `vertex1`,
+     * should it be zero, it has the same precedence.
+     * If `vertex2` has negative precedence, it follows.
      * Made for Array.prototype.sort()
      *
      * @param Vertex anotherVertex 
      * @returns int
      */
-    compareVertex (anotherVertex) {
-        return self.seqId - anotherVertex.seqId
+    compareVertex (vertex1, vertex2 = self) {
+        return vertex1.seqId - vertex2.seqId
     },
 
     /**
