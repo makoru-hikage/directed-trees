@@ -88,6 +88,25 @@ const AddsVertices = (self) => ({
   }
 })
 
+const nidifyVertices = (directedGraph) => {
+  let vertices = directedGraph.vertices
+
+  const nidify = vertex => {
+    let children = directedGraph.findVertexHeads(vertex.id)
+
+    vertex.children = children
+    vertex.children.sort( (v1, v2) => v1.seqId - v2.seqId )
+    return vertex
+
+  }
+
+  directedGraph.treeRoot = vertices
+    .map(nidify)
+    .filter( x => findRootVertex(directedGraph).id === x.id )[0]
+
+  return directedGraph
+}
+
 /**
  * A graph is a tree when:
  * 1. There is only one root vertex which has
@@ -125,5 +144,6 @@ export {
   DirectedTree,
   findRootVertex,
   allHaveOneParent,
-  findPathToRoot
+  findPathToRoot,
+  nidifyVertices
 }
