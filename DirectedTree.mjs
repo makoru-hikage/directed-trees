@@ -56,7 +56,7 @@ const TreeCheck = (directedGraph) => ({
    *
    * @param DirectedGraph directedGraph 
    * @param int vertexId - the starting vertex
-   * @param verticesPassed 
+   * @param edgesPassed 
    * @return array of Edges
    */
   findPathToRoot (vertexId, edgesPassed = []) {
@@ -167,7 +167,9 @@ const AddsVertices = (self) => ({
  * more children.
  * 3. All paths from root to any children are
  * unforked and acyclic. Meaning, no circular
- * path or forked paths.
+ * path or forked paths... in the same vein that
+ * all non-root vertices must have a pedigree where
+ * the earliest ascendant is the root.
  *
  * @param Vertex rootVertex 
  * @returns 
