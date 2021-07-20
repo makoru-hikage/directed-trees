@@ -76,7 +76,7 @@ Create a function `transformItems` that would return the desired output below
 (should be able to support virtually unlimited depth and additional items)
 */
 
-console.dir(TreeGraph.findPathToRoot(7));
+console.dir(TreeGraph.allEndsToRoot());
 
 /* Output:
 // The seqId is used for ordering within siblings.
