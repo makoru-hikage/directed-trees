@@ -1,9 +1,22 @@
 import Edge from './Edge.mjs'
-import {Graphness} from './Graph.mjs'
-import {Directedness} from './DirectedGraph.mjs'
 
-
-const TreeCheck = (directedGraph) => ({
+/**
+ * A graph is a tree when:
+ * 1. There is only one root vertex which has
+ * no 'parent', meaning, there are no edges in
+ * a graph where it is a head.
+ * 2. All vertices other than the root has only
+ * one parent. None of the vertices have more
+ * than one parent. Any vertex can have none or
+ * more children.
+ * 3. All paths from root to any children are
+ * unforked and acyclic. Meaning, no circular
+ * path or forked paths... in the same vein that
+ * all non-root vertices must have a pedigree where
+ * the earliest ascendant is the root.
+ *
+ */
+const DirectedTreeTrait = (directedGraph) => ({
   /**
    * Find the root of a directedGraph.
    * It looks for the first vertex that
@@ -196,71 +209,4 @@ const TreeCheck = (directedGraph) => ({
   }
 })
 
-const AddsVertices = (self) => ({
-  /**
-   * Returns true if the vertex is successfully
-   * added, otherwise false.
-   *
-   *
-   * @param Vertex vertex 
-   * @param int parentVertexId 
-   * @returns bool
-   */
-  addVertex (vertex, parentVertexId) {
-    let vertexId = vertex.id
-    let parentVertex = self.findVertex(parentVertexId)
-
-    // A vertex's uniqueness is determined by its `id`:
-    // should it exist amongst the tree's vertices...
-    // Also every vertex must have only one parent,
-    // only the `rootVertex` has no parent.
-    if (self.findVertex(vertexId) || parentVertex === null){
-      return false
-    }
-
-    self.vertices.push(vertex)
-    self.edges.push(Edge(parentVertex, vertex))
-    return true
-
-  }
-})
-
-/**
- * A graph is a tree when:
- * 1. There is only one root vertex which has
- * no 'parent', meaning, there are no edges in
- * a graph where it is a head.
- * 2. All vertices other than the root has only
- * one parent. None of the vertices have more
- * than one parent. Any vertex can have none or
- * more children.
- * 3. All paths from root to any children are
- * unforked and acyclic. Meaning, no circular
- * path or forked paths... in the same vein that
- * all non-root vertices must have a pedigree where
- * the earliest ascendant is the root.
- *
- * @param Vertex rootVertex 
- * @returns 
- */
-function DirectedTree (rootVertex) {
-  let graph = {
-    rootVertex,
-    vertices: [],
-    edges: []
-  }
-
-  graph.vertices.push(rootVertex)
-
-  return Object.assign(
-    graph,
-    Graphness(graph),
-    Directedness(graph),
-    AddsVertices(graph),
-  )
-}
-
-export {
-  DirectedTree,
-  TreeCheck
-}
+export { DirectedTreeTrait }
