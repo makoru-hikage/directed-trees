@@ -36,6 +36,8 @@ const Graphness = (self) => ({
       return result
     }
 
+    // Scour through the list of edges that contain the
+    // target vertex
     for (let i = 0; i < self.edges.length; i++){
       let edge = self.edges[i]
       if (edge.containsVertex(vertex)){
